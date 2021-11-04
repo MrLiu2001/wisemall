@@ -2,7 +2,7 @@
   <div class="focus">
     <div class="background"></div>
     <swiper ref="mySwiper" :options="swiperOptions" class="main-focus">
-        <swiper-slide v-for="i in item" :key="i.name"><img :src="i.src" alt="" @click="click"></swiper-slide>
+        <swiper-slide v-for="i in item" :key="i.name"><img :src="i.src" alt=""></swiper-slide>
     </swiper>
   </div>
    
@@ -15,17 +15,14 @@
   // Import Swiper styles
   import 'swiper/css/swiper.css';
 
+  let vm = null
     export default {
         name: 'focus',
         components: {
           swiper, 
           swiperSlide
         },
-        methods: {
-          click(){
-            this.$router.replace('/focus')
-          }
-        },
+
         data() {
             return {
               item: [{
@@ -41,11 +38,22 @@
                   disableOnInteraction: false,
                 },   
                 speed: 300,
-                loop: true, 
+                loop: true,
+                observer:true,//修改swiper自己或子元素时，自动初始化swiper
+                observeParents:true,//修改swiper的父元素时，自动初始化swiper
+
+                on: {
+                  click() {
+                    vm.$router.replace('/focus')
+                  }
+                }
               }
           }
       },
-        computed: {
+      created() {
+          vm = this
+      },
+      computed: {
             swiper() {
                 return this.$refs.mySwiper.swiper
             }

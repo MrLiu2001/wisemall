@@ -1,5 +1,5 @@
 <template>
-  <div class="search-bar" :style="{backgroundColor:bgColor}">
+  <div class="nav-bar" :style="{backgroundColor:bgColor}">
     <slot name="left"></slot>
     <slot name="middle"></slot>
     <slot name="right"></slot>
@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style scoped>
-.search-bar{
+.nav-bar{
   display: flex;
   width: 100%;
   height: 13.75vw;
