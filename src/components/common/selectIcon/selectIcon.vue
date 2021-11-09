@@ -1,21 +1,22 @@
 <template>
   <span class="select-icon">
-    <i v-if="isItemSelected" class="shop-cart-left-icon-selected" @click="selectedClick"></i>
-    <i v-else class="shop-cart-left-icon-unselected" @click="selectedClick"></i>
+    <i v-if="isSelected" class="shop-cart-left-icon-selected"></i>
+    <i v-else class="shop-cart-left-icon-unselected"></i>
   </span>
 </template>
 
 <script>
 export default {
   name: "selectIcon",
-  data() {
-    return  {
-      isItemSelected: true,
+  props: {
+    selected: {
+      type: Boolean,
+      default: true
     }
   },
-  methods: {
-    selectedClick() {
-      this.isItemSelected = !this.isItemSelected
+  computed: {
+    isSelected() {
+      return this.selected
     }
   }
 }

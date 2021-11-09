@@ -1,12 +1,14 @@
 <template>
   <div class="main-shop-cart">
     <ul class="item">
-      <li v-for="item in shopCartItem">
+      <li v-for="(item,index) in this.$store.state.cartItemList">
         <shop-cart-item
-            :link="'https://www.baidu.com'"
-            :imgSrc="'https://img12.360buyimg.com/mobilecms/s372x372_jfs/t1/195462/30/12283/198021/60e6a927E24b85271/373080c3384c11fc.jpg!q70.dpg.webp'"
-            :description="'this  is test text'"
-            :price="12.99"
+            :index = index
+            :id = "item.id"
+            :imgSrc = "item.imgSrc"
+            :description = "item.description"
+            :price = "item.price"
+            @isSelectCartAll = "isSelectCartAll"
         />
       </li>
     </ul>
@@ -15,11 +17,13 @@
 <!--  shopCart-bottom  -->
     <div class="shop-cart-bottom">
       <nav-bar :bgColor="'#fff'">
-        <div slot="left" class="shop-cart-bottom-left">
-          <select-icon/>
+        <div slot="left" class="shop-cart-bottom-left" @click="selectAll">
+          <select-icon :selected="selectCartAllState"/>
           全选
         </div>
-        <div slot="middle" class="shop-cart-bottom-middle">总价：{{totalPrice}}</div>
+        <div slot="middle" class="shop-cart-bottom-middle">
+          总计：<span class="total-price">{{ getTotalPrice }}</span>
+        </div>
         <div slot="right" class="shop-cart-bottom-right" @click="">购买</div>
       </nav-bar>
     </div>
@@ -32,17 +36,36 @@ import navBar from "components/common/navbar/navBar";
 import selectIcon from "components/common/selectIcon/selectIcon";
 export default {
   name: "MainShopCart",
-  data(){
+  created() {
+    for (let item of this.$store.state.cartItemList){
+      this.$set(item, 'selected', true)
+    }
+  },
+  data() {
     return {
-      shopCartItem: [1, 2, 3, 4, 5]
+       selectCartAllState: true
+    }
+  },
+  methods: {
+    selectAll(){
+      this.$store.commit('selectCartAll')
+    },
+    isSelectCartAll(state) {          //全选的状态
+      console.log(state);
+      this.selectCartAllState = state
     }
   },
   computed: {
-    totalPrice(){
-      let totalPrice = this.shopCartItem.reduce((accumulator, currentValue) => {
-        return accumulator + currentValue
+    getTotalPrice() {
+      //统计选中的商品总价
+      return this.$store.state.cartItemList.reduce((accumulator, currentValue)=>{
+        if(currentValue.selected){
+          return accumulator + currentValue.price
+        }else{
+          return accumulator
+        }
       }, 0)
-      return totalPrice
+      .toFixed(2)
     }
   },
   components: {
@@ -55,6 +78,7 @@ export default {
 
 <style scoped>
 .main-shop-cart{
+  margin-top: 15vw;
   width: 100%;
 }
 
@@ -63,6 +87,7 @@ export default {
 }
 
 .shop-cart-bottom{
+  font-size: 4.375vw;
   color: black;
   z-index: 999;
   width: 100%;
@@ -81,7 +106,6 @@ export default {
   display: flex;
   align-items: center;
   padding-left: 9.375vw;
-  font-size: 14px;
   width: 50%;
 }
 
@@ -91,5 +115,8 @@ export default {
   align-items: center;
   background-color: #42b983;
   width: 30%;
+}
+.total-price{
+  color: #e21616;
 }
 </style>

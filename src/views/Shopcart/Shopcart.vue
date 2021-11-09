@@ -1,7 +1,10 @@
 <template>
   <div class="shop-cart">
     <nav-bar :bgColor="'#328B62'"
-             :style="{display: 'flex'}">
+             :style="{display: 'flex',
+                      position: 'fixed',
+                      top: '0',
+    }">
       <div slot="left" class="left">购物车</div>
       <div slot="middle" class="middle">
         <i class="middle-icon"></i>
@@ -9,7 +12,9 @@
       </div>
       <div slot="right" class="right">编辑</div>
     </nav-bar>
+
     <main-shop-cart/>
+
   </div>
 
 </template>
@@ -21,9 +26,9 @@ import MainShopCart from "components/content/shopCart/MainShopCart";
 
 export default {
   name: 'ShopCart',
-  data() {
-    return {
-      address: '湖南工程学院湖南工程学院湖南工程学院湖南工程学院',     //~~~~~父组件传入
+  computed: {
+    address() {
+      return this.$store.state.user.address
     }
   },
 
@@ -65,13 +70,14 @@ export default {
 }
 .middle-icon{
   display: inline-block;
-  width: 30px;
-  height: 18px;
+  width: 5.625vw;
+  height: 5.625vw;
   background-image: url(~assets/img/ShopCart/adress-icon.svg);
-  background-size: 18px 18px;
+  background-size: cover;
 }
 .right {
   width: 15.625vw;
+  font-size: 5vw;
   line-height: 13.75vw;
   text-align: center;
 }

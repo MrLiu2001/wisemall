@@ -4,8 +4,10 @@
 
 <!--   购物车左侧选择图标   -->
       <div class="shop-cart-left">
-        <i v-if="isItemSelected" class="shop-cart-left-icon-selected" @click="selectedClick"></i>
-        <i v-else class="shop-cart-left-icon-unselected" @click="selectedClick"></i>
+        <select-icon
+            :selected="this.$store.state.cartItemList[this.index].selected"
+            @click.native = "selectedCartClick"
+        />
       </div>
 
 <!--   购物车中商品图片   -->
@@ -15,7 +17,7 @@
 
 <!--  购物车商品描述   -->
       <div class="shop-cart-right">
-        <div class="shop-cart-right-text">{{ description }}</div>
+        <div class="shop-cart-right-text textOverThree">{{ description }}</div>
         <div class="shop-cart-right-price">￥{{ getPrice }}</div>
       </div>
     </div>
@@ -24,14 +26,19 @@
 </template>
 
 <script>
+import selectIcon from "components/common/selectIcon/selectIcon";
+
 export default {
   name: "shopCartItem",
   props: {
+    index: {
+      type: Number
+    },
     imgSrc: {
       type: String,
       default: ''
     },
-    link: {
+    id: {
       type: String,
       default: '',
     },
@@ -44,21 +51,22 @@ export default {
       default: 0,
     }
   },
-  data() {
-    return  {
-      num: 0,
-      isItemSelected: true,
-    }
-  },
   methods: {
-    selectedClick() {
-      this.isItemSelected = !this.isItemSelected
+    selectedCartClick() {
+      this.$store.commit('selectedCartClick', this.index)
+      let state = this.$store.state.cartItemList.every((item) => item.selected)
+      // console.log(state);
+      this.$emit('isSelectedCartAll', state)
     }
   },
   computed: {
     getPrice(){
       return this.price.toFixed(2)
     }
+  },
+
+  components: {
+    selectIcon
   }
 
 }
@@ -87,19 +95,19 @@ export default {
   align-items: center;
 }
 
-.shop-cart-left-icon-selected{
-  width: 6.25vw;
-  height: 6.25vw;
-  background: url("~assets/img/ShopCart/selected.svg") no-repeat center center;
-  background-size: cover;
-}
+/*.shop-cart-left-icon-selected{*/
+/*  width: 6.25vw;*/
+/*  height: 6.25vw;*/
+/*  background: url("~assets/img/ShopCart/selected.svg") no-repeat center center;*/
+/*  background-size: cover;*/
+/*}*/
 
-.shop-cart-left-icon-unselected{
-  width: 6.25vw;
-  height: 6.25vw;
-  background: url("~assets/img/ShopCart/unselected.svg") no-repeat center center;
-  background-size: cover;
-}
+/*.shop-cart-left-icon-unselected{*/
+/*  width: 6.25vw;*/
+/*  height: 6.25vw;*/
+/*  background: url("~assets/img/ShopCart/unselected.svg") no-repeat center center;*/
+/*  background-size: cover;*/
+/*}*/
 
 
 .shop-cart-middle{
@@ -121,7 +129,7 @@ export default {
 }
 
 .shop-cart-right-text{
-  height: 70%;
+  height: 68%;
   font-size: 4.375vw;
   padding: 3.125vw 0 0 5vw;
 }

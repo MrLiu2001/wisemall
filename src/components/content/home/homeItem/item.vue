@@ -1,10 +1,8 @@
 <template>
-  <div class="item">
-    <a :href="link">
+  <div class="item" @click="getDetail">
       <img :src="imgSrc" alt="">
-      <h2 class="textOVerThree">{{ description }}</h2>
+      <h2 class="textOverThree">{{ description }}</h2>
       <p>￥{{ cost }}</p>
-    </a>
   </div>
 </template>
 
@@ -12,6 +10,10 @@
 export default {
   name: 'item',
   props: {
+    id:{
+      type: String,
+      default: ''
+    },
     imgSrc:{
       type: String,
       default: ''
@@ -24,10 +26,17 @@ export default {
       type: Number,
       default: 0.00
     },
-    link:{
-      type: String,
-      default: ''
-    }
+
+    },
+    methods: {
+      getDetail(){
+        this.$router.push({
+          path: '/detail',
+          query: {
+            id: this.id,
+          }
+        })
+      }
     },
     computed: {
       cost(){

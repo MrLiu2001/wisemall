@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
-    <main-tab-bar></main-tab-bar>
+    <main-tab-bar v-if="$route.meta.show"></main-tab-bar>
   </div>
 </template>
 
@@ -35,7 +35,7 @@ a:visited {
   color: #666;
 }
 
-.textOVerThree {
+.textOverThree {
   display: -webkit-box;
   overflow: hidden;
   white-space: normal !important;
