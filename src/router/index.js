@@ -24,7 +24,8 @@ const routes = [
     component: Home,
     meta: {
       keepalive: true,
-      show: true
+      show: true,
+      index: 1
     }
   },
   {
@@ -33,7 +34,8 @@ const routes = [
     component: () => import('../views/Category/Category'),
     meta: {
       keepalive: true,
-      show: true
+      show: true,
+      index: 2
     }
   },
   {
@@ -42,7 +44,8 @@ const routes = [
     component: () => import('../views/Shopcart/Shopcart'),
     meta: {
       keepalive: true,
-      show: true
+      show: true,
+      index: 3
     }
   },
   {
@@ -51,7 +54,8 @@ const routes = [
     component: () => import('../views/Profile/Profile'),
     meta: {
       keepalive: true,
-      show: true
+      show: true,
+      index: 4
     }
   },
   {

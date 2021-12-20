@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     //用户信息
     user: {
+      nickname: '',
       address: '湖南工程学院'
 
     },

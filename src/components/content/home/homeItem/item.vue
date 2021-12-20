@@ -11,7 +11,7 @@ export default {
   name: 'item',
   props: {
     id:{
-      type: String,
+      type: Number,
       default: ''
     },
     imgSrc:{
